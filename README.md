@@ -9,6 +9,8 @@ Currently supported:
     - post-training model compression 
     - adversarial evaluation (any method from torchattacks is compatible)
 
+N.B to use pneumonia dataset, you need to download it first and place in a pneumonia/ folder. The data can be found in https://github.com/gkaissis/PriMIA 
+
 # Example use
 Default case (pneumonia prediction, ResNet-9):
     python main.py
