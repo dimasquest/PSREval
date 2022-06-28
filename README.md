@@ -24,7 +24,6 @@ More details on each parameter can be found in main.py -h or by examining the ar
 To extend datasets, simply add a method for data loading to data.py; add an alias to utilities.py and 
 use the appropriate num_channels and num_classes when running the framework
 e.g.
-    ...
     	train_dataset = datasets.ImageFolder(str(path) + '/dataset/train', transform=data_transforms)
 	test_dataset = datasets.ImageFolder(str(path) + '/dataset/test', transform=data_transforms)
 
