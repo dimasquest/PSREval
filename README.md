@@ -9,7 +9,7 @@ Currently supported:
     - post-training model compression 
     - adversarial evaluation (any method from torchattacks is compatible)
 
-N.B to use pneumonia dataset, you need to download it first and place in a pneumonia/ folder. The data can be found in https://github.com/gkaissis/PriMIA 
+N.B to use pneumonia classification dataset, you need to download it first and place in a pneumonia/ folder. We used publicly available data from https://github.com/gkaissis/PriMIA [1]. 
 
 # Example use
 Default case (pneumonia prediction, ResNet-9):
@@ -52,7 +52,10 @@ use the appropriate num_channels and num_classes when running the framework e.g.
 Same goes for adding your own models, but these need to be compatible with torch.quantize as per https://pytorch.org/docs/stable/quantization.html
 
 Dependencies:
-    - torch==1.11
-    - torchvision==0.12
-    - opacus==1.1.0
-    - torchattacks==3.2.5
+
+    torch==1.11
+    torchvision==0.12
+    opacus==1.1.0
+    torchattacks==3.2.5
+
+[1] - Kaissis, Georgios, et al. "End-to-end privacy preserving deep learning on multi-institutional medical imaging." Nature Machine Intelligence 3.6 (2021): 473-484.
