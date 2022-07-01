@@ -55,7 +55,9 @@ Dependencies:
 
     torch==1.11
     torchvision==0.12
-    opacus==1.1.0
+    opacus==1.1.2
     torchattacks==3.2.5
+
+N.B. If you encounter a bug in opacus (specifically poisson_sampler being an illegal keyword), update your opacus version and remove the **kwargs keyword from get_noise_multiplier in lines 60 and 67.
 
 [1] - Kaissis, Georgios, et al. "End-to-end privacy preserving deep learning on multi-institutional medical imaging." Nature Machine Intelligence 3.6 (2021): 473-484.
