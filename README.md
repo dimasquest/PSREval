@@ -11,6 +11,11 @@ Currently supported:
 
 N.B to use pneumonia classification dataset, you need to download it first and place in a pneumonia/ folder. We used publicly available data from https://github.com/gkaissis/PriMIA [1]. 
 
+Setup:
+
+    conda env create -f environment.yml
+    conda activate quantized_dp
+
 # Example use
 Default case (pneumonia prediction, ResNet-9):
     python main.py
@@ -50,13 +55,6 @@ use the appropriate num_channels and num_classes when running the framework e.g.
     python main.py --dataset your_data --num_channels 3 --num_classes 25
 
 Same goes for adding your own models, but these need to be compatible with torch.quantize as per https://pytorch.org/docs/stable/quantization.html
-
-Dependencies:
-
-    torch==1.11
-    torchvision==0.12
-    opacus==1.1.2
-    torchattacks==3.2.5
 
 N.B. If you encounter a bug in opacus (specifically poisson_sampler being an illegal keyword), update your opacus version and remove the **kwargs keyword from get_noise_multiplier in lines 60 and 67.
 

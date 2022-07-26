@@ -4,4 +4,3 @@ pcamv1/
 models/
 .ipynb_checkpoints/
 cifar_10/
-*.yml
