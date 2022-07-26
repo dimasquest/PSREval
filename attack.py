@@ -4,8 +4,6 @@ import utilities as utils
 
 
 def run_attack(model, data_loader, name, device='cpu', attack_method=torchattacks.PGD, eps=8/255, alpha=2/255, steps=20):
-    # atk.set_training_mode(model_training=True)
-    # atk.set_mode_targeted_least_likely()
     atk = attack_method(model, eps=eps, alpha=alpha, steps=steps)
     correct = 0
     images, labels = iter(data_loader).next()

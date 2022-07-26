@@ -150,22 +150,14 @@ class QuantizedResNet9(nn.Module):
 class QuantizedResNet18(nn.Module):
     def __init__(self, in_channels, num_classes):
         super(QuantizedResNet18, self).__init__()
-        # QuantStub converts tensors from floating point to quantized.
-        # This will only be used for inputs.
         self.quant = torch.quantization.QuantStub()
-        # DeQuantStub converts tensors from quantized to floating point.
-        # This will only be used for outputs.
         self.dequant = torch.quantization.DeQuantStub()
         self.model_fp32 = resnet18(num_classes=num_classes, pretrained=False)
         self.model_fp32.conv1 = torch.nn.Conv2d(in_channels, 64, (7, 7), (2, 2), (3, 3), bias=False)
 
     def forward(self, x):
-        # manually specify where tensors will be converted from floating
-        # point to quantized in the quantized model
         x = self.quant(x)
         x = self.model_fp32(x)
-        # manually specify where tensors will be converted from quantized
-        # to floating point in the quantized model
         x = self.dequant(x)
         return x
 
@@ -201,17 +193,14 @@ class BasicBlock(nn.Module):
             raise ValueError('BasicBlock only supports groups=1 and base_width=64')
         if dilation > 1:
             raise NotImplementedError("Dilation > 1 not supported in BasicBlock")
-        # Both self.conv1 and self.downsample layers downsample the input when stride != 1
         self.conv1 = conv3x3(inplanes, planes, stride)
         self.bn1 = norm_layer(planes)
-        # Rename relu to relu1
         self.relu1 = nn.ReLU(inplace=True)
         self.conv2 = conv3x3(planes, planes)
         self.bn2 = norm_layer(planes)
         self.downsample = downsample
         self.stride = stride
         self.skip_add = nn.quantized.FloatFunctional()
-        # Remember to use two independent ReLU for layer fusion.
         self.relu2 = nn.ReLU(inplace=True)
 
     def forward(self, x: Tensor) -> Tensor:
@@ -227,8 +216,6 @@ class BasicBlock(nn.Module):
         if self.downsample is not None:
             identity = self.downsample(x)
         
-        # Use FloatFunctional for addition for quantization compatibility
-        # out += identity
         out = self.skip_add.add(identity, out)
         out = self.relu2(out)
 
@@ -382,8 +369,8 @@ class ResNet(nn.Module):
 
         return nn.Sequential(*layers)
 
+
     def _forward_impl(self, x: Tensor) -> Tensor:
-        # See note [TorchScript super()]
         x = self.conv1(x)
         x = self.bn1(x)
         x = self.relu(x)
@@ -399,6 +386,7 @@ class ResNet(nn.Module):
         x = self.fc(x)
 
         return x
+
 
     def forward(self, x: Tensor) -> Tensor:
         return self._forward_impl(x)
