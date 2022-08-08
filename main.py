@@ -61,13 +61,13 @@ if __name__ =='__main__':
     parser.add_argument('--attack_type', help='Black-box attack type', type=str, default='transfer')
 
     args = parser.parse_args()
-
-    train_loader, test_loader = utils.load_dataset(args.dataset, args.batch_size_train, args.batch_size_test)
-    tags = utils.generate_tags(args.adversarial_data, args.adv_training, args.attack)
     torch.manual_seed(args.seed)
     random.seed(args.seed)
     np.random.seed(args.seed)
-
+    
+    train_loader, test_loader = utils.load_dataset(args.dataset, args.batch_size_train, args.batch_size_test)
+    tags = utils.generate_tags(args.adversarial_data, args.adv_training, args.attack)
+  
     act_func = utils.select_activation_func(args.act_func)
     model_vanilla = utils.load_model(args.arch, in_channels=args.num_channels, num_classes=args.num_classes,
      act_func=act_func, norm_layer=args.norm_layer)
